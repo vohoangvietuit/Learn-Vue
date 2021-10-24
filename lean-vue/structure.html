@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VueJS</title>
+  <script src="vue.js"></script>
+  <style>
+    
+  </style>
+</head>
+<body>
+  <div id="app">
+    <p>Hello World!</p>
+    <p v-if="show">Vo Hoang Viet</p>
+    <p v-else>Switch to see my name</p>
+    <p v-show="show">this lections</p>
+    <template v-if="show">
+      <h1>Template</h1>
+      <p>
+        Inside a template
+      </p>
+    </template>
+    <button @click="show = !show">Switch</button>
+
+    <hr>
+
+    <ul>
+      <li v-for="(person, i) of persons" :key="person.name">{{ person.name }} ({{ i }})</li>
+    </ul>
+
+    <hr>
+
+    <ul>
+      <li v-for="person of persons">
+        <div v-for="(value, key, i) in person">
+          {{key}}: {{value}} ({{i}})
+        </div>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Script -->
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        show: true,
+        persons: [
+          {name: 'Viet', age: 25},
+          {name: 'Thai', age: 20},
+          {name: 'John', age: 25}
+        ]
+      },
+      
+    });
+  </script>
+</body>
+</html>

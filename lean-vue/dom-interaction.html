@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VueJS</title>
+  <script src="vue.js"></script>
+  <style>
+    .demo {
+      width: 100px;
+      height: 100px;
+      background-color: gray;
+      display: inline-block;
+      margin: 15px;
+    }
+
+    .red {
+      background-color: red;
+    }
+
+    .yellow {
+      background-color: yellow;
+    }
+
+    .blue {
+      background-color: blue;
+    }
+
+    .green {
+      background-color: green;
+    }
+
+  </style>
+</head>
+<body>
+  <div id="app">
+    <input type="text" v-on:input="changeTitle">
+    <p v-once>{{ title }}</p>
+    <a v-bind:href="link">Google</a>
+    <a :href="link">Google</a>
+    <p>
+      {{ sayHello() }}
+    </p>
+    <hr>
+    <p v-html="fbLink"></p>
+    <hr>
+    <button v-on:click="increase(2, $event)">Increase</button>
+    <button @click="counter--">Decrease</button>
+    <button @click="secondCounter++">Increase secondCounter</button>
+    <p>{{ counter }} | {{ secondCounter }}</p>
+    <p>Result: {{ result() }} | {{ output }}</p>
+    <hr>
+    <p v-on:mousemove="updateCoordinates">
+      Coordinates: {{ x }} / {{ y }}
+      - <span v-on:mousemove='deadSpot'>DEAD SPOT JS</span>
+      - <span v-on:mousemove.stop=''>DEAD SPOT VueJS</span>
+    </p>
+    <hr>
+    <input type="text" v-on:keyup.enter="alertMe">
+    <hr>
+    <p>Two way binding</p>
+    <input type="text" v-model="name">
+    <p>{{ name }}</p>
+    <hr>
+    <hr>
+    <p>Styling</p>
+    <div 
+      class="demo"
+      :class="{'red': attachRed}"
+      @click="attachRed = !attachRed"
+      >
+    </div>
+    <div 
+      class="demo"
+      :class="divClasses">
+    </div>
+    <div 
+      class="demo"
+      :class="color"></div>
+    <input type="text" v-model="color">
+  </div>
+
+  <!-- Script -->
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        title: 'Hello World!',
+        link: 'http://google.com',
+        fbLink: '<a href="http://fb.com">FB</a>',
+        counter: 0,
+        secondCounter: 0,
+        x: 0,
+        y: 0,
+        name: 'Viet',
+        attachRed: false,
+        color: 'blue'
+      },
+      computed: {
+        output: function() {
+          console.log('computed');
+          return this.counter > 5 ? 'Greater 5' : 'Smaller than 5';
+        },
+        divClasses: function() {
+          return {
+            'red': this.attachRed,
+            'yellow': !this.attachRed
+          }
+        }
+      },
+      watch: {
+        secondCounter: function() {
+          const vm = this;
+          setTimeout(() => {
+            vm.secondCounter = 0;
+          }, 2000)
+        }
+      },
+      methods: {
+        changeTitle: function(event) {
+          this.title = event.target.value;
+        },
+        sayHello: function() {
+          this.title = 'Hello Viet';
+          return 'Hello Viet';
+        },
+        increase: function(step, event) {
+          console.log(event);
+          this.counter+=step;
+        },
+        updateCoordinates: function(event) {
+          this.x = event.clientX;
+          this.y = event.clientY;
+        },
+        deadSpot: function(event) {
+          event.stopPropagation();
+        },
+        alertMe: function() {
+          alert('Warning!!!');
+        },
+        result: function() {
+          console.log('methods');
+          return this.counter > 5 ? 'Greater 5' : 'Smaller than 5'
+        }
+      },
+    });
+  </script>
+</body>
+</html>
